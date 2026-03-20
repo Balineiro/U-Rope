@@ -1,0 +1,386 @@
+/* Reset & base */
+body,
+html {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #121212; /* noir profond */
+  font-family: Arial, sans-serif;
+}
+
+#game {
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+}
+
+/* Caméra (viewport fixe) */
+.camera {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+  background: #121212;
+}
+
+/* Map géante circulaire */
+.map {
+  position: absolute;
+  width: 5000px;
+  height: 5000px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f1f3f4 90%, black 100%);
+  border: 10px solid black; /* bord visible distinct */
+  top: 0;
+  left: 0;
+  will-change: transform;
+}
+
+/* Zones */
+.zone {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background-color: rgba(30, 144, 255, 0.1);
+  box-shadow: 0 0 10px #000;
+  border: 4px solid gray;
+  transition: background-color 0.3s, border-color 0.3s;
+  pointer-events: none;
+}
+
+/* Zone principale, plus grosse */
+.main-zone {
+  width: 1000px;
+  height: 1000px;
+  border-width: 6px;
+}
+
+/* Zones capturées styles */
+.zone.captured {
+  background-image: radial-gradient(
+    circle,
+    #abc5f5 50%,
+    #8cbbf7 60%,
+    #71b3f9 70%,
+    #55aafb 80%,
+    #3aa2fd 90%,
+    #1e99ff 100%
+  );
+  border-color: dodgerblue;
+}
+
+#player {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #3aa2fd 0%,
+    #1e99ff 70%,
+    #121212 100%
+  );
+  border: 4px solid black;
+  box-shadow: inset 0 8px 12px rgba(255, 255, 255, 0.2),
+    /* reflet interne */ 0 0 20px rgba(30, 144, 255, 0.6); /* halo externe */
+  position: absolute;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  pointer-events: none;
+  z-index: 100;
+  animation: pulsePlayer 2s infinite ease-in-out;
+}
+
+/* Reflet supérieur */
+#player::before {
+  content: "";
+  position: absolute;
+  top: 12px;
+  left: 30px;
+  width: 40px;
+  height: 15px;
+  border-radius: 12px;
+  background: #7b9edd;
+  pointer-events: none;
+}
+
+/* Reflet supérieur */
+#player::after {
+  content: "";
+  position: absolute;
+  top: 14px;
+  left: 32px;
+  width: 36px;
+  height: 11px;
+  border-radius: 12px;
+  background: #c3d9ff;
+  pointer-events: none;
+}
+
+.zone-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+#miniPlayer {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: dodgerblue;
+  border-radius: 50%;
+  pointer-events: none;
+  box-shadow: 0 0 6px dodgerblue;
+}
+
+.zone-flash {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: dodgerblue;
+  opacity: 0.7;
+  animation: flashPulse 0.4s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes flashPulse {
+  from {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 0;
+  }
+}
+.zone-particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  background: dodgerblue;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: particleMove 0.8s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes particleMove {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+      scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* Armes (positionnée à l'intérieur du #player) */
+#weapon {
+  position: absolute;
+  left: calc(50% + 5px); /* tenue 5px à droite de la main droite */
+  top: 50%;
+  transform-origin: 0 50%; /* pivot sur la crosse (gauche du sprite) */
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  will-change: transform, background-position;
+  /* taille par défaut — sera override en JS selon ton sprite */
+  width: 80px;
+  height: 24px;
+}
+
+/* cacher le curseur (on le fait aussi en JS) */
+body.no-cursor {
+  cursor: none;
+}
+
+/* HUD attaché au player (pseudo + barres) */
+.player-hud {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(100% + 8px); /* juste au dessus du player */
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+  z-index: 50;
+}
+
+/* Pseudo */
+.player-hud .player-name {
+  color: #111;
+  z-index: 1000;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  text-align: center;
+  text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+}
+
+/* Conteneur des barres */
+.player-hud .health-wrap {
+  width: 75px; /* largeur fixe = 80% du joueur si joueur = 100px */
+  display: flex;
+  z-index: 1000;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+
+/* Chaque barre */
+.player-hud .health-bar {
+  height: 5px;
+  width: 100%; /* prend toute la largeur du conteneur */
+  background: gray; /* couleur par défaut */
+  border-radius: 3px;
+  z-index: 1000;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2) inset;
+  overflow: hidden;
+}
+
+/* inner fill pour manipuler via JS plus tard */
+.player-hud .health-fill {
+  height: 100%;
+  width: 100%; /* plein au départ */
+  background: green; /* couleur temporaire */
+  border-radius: 3px;
+  transform-origin: left center;
+}
+
+.ability {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: lightgray;
+  border: 2px solid darkgray;
+  position: absolute;
+  z-index: 500;
+  pointer-events: none; /* pour que la souris passe à travers */
+}
+
+.obstacle {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background-image: radial-gradient(
+    circle,
+    #8f8f8f 60%,
+    #6f6f6f 70%,
+    #5f5f5f 80%,
+    #5d5d5d 100%
+  );
+  border: 5px solid #5d5d5d;
+  pointer-events: none;
+  z-index: 10;
+}
+
+#abilityHUD {
+  position: fixed;
+  bottom: 70px;
+  right: 20px;
+  width: 100px;
+  height: 100px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.abilityIcon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-image: radial-gradient(
+    circle,
+    #8f8f8f 60%,
+    #6f6f6f 70%,
+    #5f5f5f 80%,
+    #5d5d5d 100%
+  );
+  border: 5px solid #5d5d5d;
+  z-index: 2;
+}
+
+.cooldownOverlay {
+  position: absolute;
+  width: 60%;
+  height: 60%;
+  background: conic-gradient(black 0deg, transparent 0deg);
+  border-radius: 50%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+@keyframes vibrate {
+  0% {
+    transform: translate(0);
+  }
+  25% {
+    transform: translate(-2px, 2px);
+  }
+  50% {
+    transform: translate(2px, -2px);
+  }
+  75% {
+    transform: translate(-2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes morphFade {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.5;
+    background-color: #a3c2af;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.zone-wave {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 4px solid dodgerblue;
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0.7;
+  animation: waveExpand 1s ease-out forwards;
+}
+
+@keyframes waveExpand {
+  to {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+  }
+}

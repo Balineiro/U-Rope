@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Conflict Zone</title>
+    <link rel="stylesheet" href="game.css" />
+  </head>
+  <body>
+    <div id="abilityHUD">
+      <div class="cooldownOverlay"></div>
+      <div class="abilityIcon"></div>
+    </div>
+    <div id="game">
+      <div class="camera">
+        <div class="map">
+          <!-- Zones -->
+          <canvas id="zoneCanvas" width="5000" height="5000"></canvas>
+
+          <div class="zone main-zone" data-id="0">
+            <canvas class="zone-canvas" width="1000" height="1000"></canvas>
+          </div>
+
+          <div class="zone" data-id="1">
+            <canvas class="zone-canvas" width="500" height="500"></canvas>
+          </div>
+          <div class="zone" data-id="2">
+            <canvas class="zone-canvas" width="500" height="500"></canvas>
+          </div>
+          <div class="zone" data-id="3">
+            <canvas class="zone-canvas" width="500" height="500"></canvas>
+          </div>
+          <div class="zone" data-id="4">
+            <canvas class="zone-canvas" width="500" height="500"></canvas>
+          </div>
+          <div class="zone" data-id="5">
+            <canvas class="zone-canvas" width="500" height="500"></canvas>
+          </div>
+          <div class="zone" data-id="6">
+            <canvas class="zone-canvas" width="500" height="500"></canvas>
+          </div>
+          <div class="zone" data-id="7">
+            <canvas class="zone-canvas" width="500" height="500"></canvas>
+          </div>
+          <div class="zone" data-id="8">
+            <canvas class="zone-canvas" width="500" height="500"></canvas>
+          </div>
+
+          <div id="player">
+            <div id="weapon"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 Firebase (version compat, simple à utiliser) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script src="game.js"></script>
+  </body>
+</html>

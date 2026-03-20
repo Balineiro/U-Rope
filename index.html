@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conflict Zone - Menu</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="menu">
+      <canvas id="menuBG"></canvas>
+
+      <!-- Logo animé -->
+      <h1 id="logo">CONFLICT ZONE</h1>
+
+      <br />
+
+      <!-- Input pseudo -->
+      <input type="text" id="playerName" placeholder="Name..." maxlength="12" />
+      <br /><br />
+
+      <!-- Bouton Play -->
+      <button id="playBtn">PLAY</button>
+
+      <!-- Menu slide-in paramètres -->
+      <div id="settingsMenu">
+        <br /><br /><br />
+        <h2>Paramètres</h2>
+        <p>Ici tu pourras ajouter des options de jeu</p>
+
+        <div id="keybindsContainer">
+          <div class="key-row">
+            <div class="key-square key-up">
+              <div class="triangle-up"></div>
+              <span class="key-label">Z</span>
+            </div>
+          </div>
+
+          <div class="key-row">
+            <div class="key-square key-left">
+              <div class="triangle-left"></div>
+              <span class="key-label">Q</span>
+            </div>
+
+            <div class="key-square key-center">
+              <div class="circle"></div>
+              <span class="key-label">SPACE</span>
+            </div>
+
+            <div class="key-square key-right">
+              <div class="triangle-right"></div>
+              <span class="key-label">D</span>
+            </div>
+          </div>
+
+          <div class="key-row">
+            <div class="key-square key-down">
+              <div class="triangle-down"></div>
+              <span class="key-label">S</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Popup crédits -->
+      <div id="creditsPopup">
+        <button id="closeCredits" class="closeBtn">❌</button>
+        <h2>Crédits & Aide</h2>
+        <p>Easy to code</p>
+      </div>
+    </div>
+
+    <!-- Top right buttons -->
+    <div id="menuTopRight">
+      <button id="settingsBtn">⚙️</button>
+      <button id="creditsBtn">❓</button>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
