@@ -1,0 +1,39 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #b7d9ff; /* bleu clair mer */
+  overflow: hidden;
+}
+
+.map {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #b4fffe; 
+}
+
+#europeMap {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; 
+  display: block;
+}
+
+svg {
+  width: 100%;
+  height: auto;
+  max-width: 10000px;
+  display: block;
+}
+
+/* Tous les pays en blanc */
+svg path {
+  fill: url(red\ player\ #dc143c.png);
+  stroke: black;
+  stroke-width: 2;
+}
+
