@@ -32,7 +32,7 @@ svg {
 
 /* Tous les pays en blanc */
 svg path {
-  fill: url(red\ player\ #dc143c.png);
+  fill: red;
   stroke: black;
   stroke-width: 2;
 }
