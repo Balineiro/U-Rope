@@ -24,10 +24,10 @@ const scaleY = MINI_H / MAP_HEIGHT;
 
 const spawnAreas = {
   france: {
-    minX: -9000,
-    maxX: -6400,
+    minX: -5700,
+    maxX: -3100,
     minY: -5600,
-    maxY: -2600,
+    maxY: -2200,
   },
 };
 
@@ -124,7 +124,7 @@ function updatePlayer() {
 
 // --- MINI-MAP ---
 function updateMiniMap() {
-  const miniX = (x + ORIGIN_X) * scaleX +10;
+  const miniX = (x + ORIGIN_X) * scaleX;
   const miniY = (ORIGIN_Y - y) * scaleY;
 
   miniPlayer.style.left = miniX + "px";
@@ -230,11 +230,11 @@ function spawnPlayer(wx, wy) {
 
 // --- PLACEMENT DES ZONES ---
 
-placeZone("france", -7700, -4100, 1800);
-placeZone("spain", -11400, -7100, 1600);
+placeZone("france", -4500, -3500, 1800);
+placeZone("spain", -7500, -6500, 1600);
 placeZone("germany", -1000, -1000, 1800);
 placeZone("united-kingdom", -5500, 100, 1000);
-placeZone("portugal", -13100, -7100, 500);
+placeZone("portugal", -9900, -7000, 500);
 placeZone("ireland", -7500, 1000, 700);
 placeZone("luxembourg", -2750, -2100, 150);
 placeZone("netherlands", -2750, -500, 500);
@@ -267,8 +267,8 @@ placeZone("sweden", 450, 2800, 800);
 placeZone("finland", 3800, 6000, 1500);
 placeZone("iceland", -7600, 8600, 800);
 
-spawnPlayer(-8350, -6250); //-> z spawn particulier
-// spawnInCountry("france"); // -> spawn dans une région
+// spawnPlayer(-7500, 9000); -> spawn particulier
+spawnInCountry("france"); // -> spawn dans une région
 
 // --- MAIN LOOP ---
 function loop() {
