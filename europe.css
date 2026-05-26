@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -7,38 +8,157 @@ html, body {
   overflow: hidden;
 }
 
+svg path {
+  stroke: black;
+  vector-effect: non-scaling-stroke; /* Garde la ligne fine même si on zoom */
+  paint-order: fill stroke markers;
+}
+
+.svg-container {
+  position: relative; /* essentiel pour positionner les zones */
+  width: 90vw;
+  height: 90vh;
+  overflow: hidden;
+}
+
 .map {
-  width: 100vw;
-  height: 100vh;
+  width: 27940px;
+  height: 21760px;
+  overflow: visible;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #b4fffe; 
+  background: #b4fffe;
+  fill: bisque;
+  position: relative;
 }
 
 #europeMap {
   width: 100%;
   height: 100%;
-  object-fit: contain; 
+  object-fit: fill;
   display: block;
+  max-width: 100%;
+  max-height: 100%;
+  fill: bisque;
+  stroke-width: 10px !important;
 }
 
-svg {
+/* Mini-map container */
+#miniMap {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 279.4px;
+  height: 217.6px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 3px solid #333;
+  border-radius: 12px;
+  overflow: hidden;
+  z-index: 2000;
+  fill: beige;
+}
+
+/* Mini SVG */
+#miniEurope {
   width: 100%;
-  height: auto;
-  max-width: 10000px;
-  display: block;
+  height: 100%;
+  object-fit: contain;
 }
 
-/* Tous les pays en blanc */
-svg path {
-  fill: white ;
-  stroke: black;
-  stroke-width: 2;
+/* Player dot */
+#miniPlayer {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  background: dodgerblue;
+  border: 0.1px solid #000;
+  border-radius: 50%;
+  box-shadow: 0 0 6px dodgerblue;
+  pointer-events: none;
+  z-index: 3000;
 }
 
-.belarus {
-  fill: yellow;        /* couleur intérieure */
-  stroke: black;    /* contour */
-  stroke-width: 1;
+.zone {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(30, 144, 255, 0.1);
+  border: 4px solid gray;
+  pointer-events: none;
+  box-shadow: 0 0 10px #000;
+  transition: background-color 0.3s, border-color 0.3s;
+  pointer-events: none;
+}
+
+.zone-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Zones capturées styles */
+.zone.captured {
+  background-image: radial-gradient(
+    circle,
+    #abc5f5 50%,
+    #8cbbf7 60%,
+    #71b3f9 70%,
+    #55aafb 80%,
+    #3aa2fd 90%,
+    #1e99ff 100%
+  );
+  border-color: dodgerblue;
+}
+
+#europePlayer {
+  position: absolute;
+  z-index: 1000;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    #3aa2fd 0%,
+    #1e99ff 70%,
+    #121212 100%
+  );
+  border: 3px solid black;
+  box-shadow: inset 0 6px 10px rgba(255, 255, 255, 0.2),
+    0 0 10px rgba(30, 144, 255, 0.6);
+  pointer-events: none;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.country {
+  fill: bisque;
+  transition: fill 0.4s ease;
+}
+
+.country.captured {
+  fill: dodgerblue;
+}
+
+.country.iceland.captured {
+  fill: red;
+}
+
+#coordDisplay {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.55);
+  color: rgb(221, 221, 221);
+  font-family: monospace;
+  font-size: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  z-index: 3000;
+  pointer-events: none;
 }
