@@ -1,3 +1,49 @@
+/* ======================================   FIREBASE INITIALIZATION   ====================================== */
+
+const firebaseConfig = {
+  apiKey: "TA_CLE",
+  authDomain: "TON_PROJET.firebaseapp.com",
+  databaseURL: "https://TON_PROJET.firebaseio.com",
+  projectId: "TON_PROJET",
+  storageBucket: "TON_PROJET.appspot.com",
+  messagingSenderId: "XXX",
+  appId: "XXX"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+/* ======================================   MULTIPLAYER SETUP   ====================================== */
+
+// ID unique pour ce joueur
+const myId = "player_" + Math.random().toString(36).substr(2, 9);
+
+// Position initiale
+let playerX = 300;
+let playerY = 300;
+let playerAngle = 0;
+
+// Enregistrer ce joueur dans Firebase
+db.ref("players/" + myId).set({
+  x: playerX,
+  y: playerY,
+  angle: playerAngle,
+  team: "none" // on ajoutera les équipes ensuite
+});
+
+// Supprimer le joueur quand il quitte la page
+db.ref("players/" + myId).onDisconnect().remove();
+
+setInterval(() => {
+  db.ref("players/" + myId).update({
+    x: player.offsetLeft,
+    y: player.offsetTop,
+    angle: currentAngle
+  });
+}, 50); // 20 FPS réseau
+
+
+
 // === DRAPEAU FIXE (DATA URL) ===
 const FLAG_SVG = `
 <svg xmlns="http://www.w3.org/2000/svg" width="28" height="20" viewBox="0 0 28 20">
@@ -530,6 +576,14 @@ function updatePlayerPosition() {
   const hud = player._hud.root;
   hud.style.left = posX + 4 + "px";
   hud.style.top = posY - 85 + "px"; // un peu au-dessus du player
+
+  function syncPlayerToFirebase() {
+    db.ref("players/" + myId).update({
+      x: player.offsetLeft,
+      y: player.offsetTop,
+      angle: playerAngle
+    });
+  }
 }
 
 const speed = 6;
