@@ -1,17 +1,19 @@
-/* ======================================   FIREBASE INITIALIZATION   ====================================== */
+/* ==============================   FIREBASE INITIALIZATION (VERSION 8)   ============================= */
 
 const firebaseConfig = {
-  apiKey: "TA_CLE",
-  authDomain: "TON_PROJET.firebaseapp.com",
-  databaseURL: "https://TON_PROJET.firebaseio.com",
-  projectId: "TON_PROJET",
-  storageBucket: "TON_PROJET.appspot.com",
-  messagingSenderId: "XXX",
-  appId: "XXX"
+  apiKey: "AIzaSyDJ9xd2Hj_9Gv4X2PBwcu9-_Klg1ZNNfYk",
+  authDomain: "in-game-7f102.firebaseapp.com",
+  databaseURL: "https://in-game-7f102-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "in-game-7f102",
+  storageBucket: "in-game-7f102.firebasestorage.app",
+  messagingSenderId: "558552258072",
+  appId: "1:558552258072:web:8d8485be4381cc9804556d",
+  measurementId: "G-MGSJR0RS3J"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+
 
 /* ======================================   MULTIPLAYER SETUP   ====================================== */
 
